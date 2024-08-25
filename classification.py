@@ -7,6 +7,8 @@ from sklearn.feature_selection import chi2
 from sklearn.model_selection import train_test_split
 from sklearn.naive_bayes import MultinomialNB
 from sklearn.svm import LinearSVC
+from sklearn.metrics import confusion_matrix, accuracy_score  # Evaluation metrics
+import seaborn as sns  # Heatmap visualization
 
 # Reading the dataset
 df=pd.read_csv('website_classification.csv')
@@ -226,15 +228,13 @@ nb_model.fit(X_train_tfidf, y_train)
 y_pred_nb = nb_model.predict(X_test_tfidf)
 y_pred_svc = svc_model.predict(X_test_tfidf)
 
-#Fig- showing the data generated from the dataset.
-#Plotting the confusion matrix
-# conf_mat = confusion_matrix(y_test, y_pred_svc,labels=[0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15])
-# fig, ax = plt.subplots(figsize=(8,8))
-# sns.heatmap(conf_mat, annot=True, cmap="OrRd", fmt='d',xticklabels=category_id_df.Category.values, yticklabels=category_id_df.Category.values)
-# plt.ylabel('Actual')
-# plt.xlabel('Predicted')
-# plt.title("CONFUSION MATRIX - LinearSVC\n", size=16)
-#Fig- Confusion matrix (Actual vs Predicted)
+# Step 4: Findind the accuracy of the models
+svc_accuracy = accuracy_score(y_test, y_pred_svc)
+nb_accuracy = accuracy_score(y_test, y_pred_nb)
+
+print("LinearSVC Accuracy:", svc_accuracy*100)
+print("MultinomialNB Accuracy:", nb_accuracy*100)
+
 
 # Code for extracting the text from the website using the Beautiful Soup(Webscraping).
 from bs4 import BeautifulSoup
